@@ -1,39 +1,49 @@
-name: PHP Composer
+name: Dummy Build and Deploy Workflow
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-permissions:
-  contents: read
+    branches:
+      - main
 
 jobs:
   build:
-
+    name: Build Job
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout Code
+        run: echo "Step 1: Checking out code..."
 
-    - name: Validate composer.json and composer.lock
-      run: composer validate --strict
+      - name: Install Dependencies
+        run: echo "Step 2: Installing dependencies..."
 
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v3
-      with:
-        path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
+      - name: Run Tests
+        run: echo "Step 3: Running tests..."
 
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
+      - name: Compile Code
+        run: echo "Step 4: Compiling code..."
 
-    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
-    # Docs: https://getcomposer.org/doc/articles/scripts.md
+      - name: Build Artifacts
+        run: echo "Step 5: Building artifacts..."
 
-    # - name: Run test suite
-    #   run: composer run-script test
+  deploy:
+    name: Deploy Job
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout Code
+        run: echo "Step 1: Checking out code for deployment..."
+
+      - name: Setup Environment
+        run: echo "Step 2: Setting up deployment environment..."
+
+      - name: Upload Artifacts
+        run: echo "Step 3: Uploading artifacts..."
+
+      - name: Deploy to Server
+        run: echo "Step 4: Deploying application..."
+
+      - name: Post-Deployment Checks
+        run: echo "Step 5: Running post-deployment checks..."
+
+      - name: Deployment Complete
+        run: echo "Step 6: Deployment completed successfully!"
